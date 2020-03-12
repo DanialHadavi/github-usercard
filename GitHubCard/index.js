@@ -3,6 +3,21 @@
            https://api.github.com/users/<your name>
 */
 
+axios
+  .get("https://api.github.com/users/DanialHadavi")
+  .then(response => {
+    //console.log(response);
+    const myInfo = response.data;
+    myGithub(response.data);
+    const cards = document.querySelector(".cards");
+    const cardInfo = myGithub(myInfo);
+    console.log(myInfo);
+    cards.appendChild(cardInfo);
+  })
+  .catch(error => {
+    console.log("there was an error", error);
+  });
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -45,6 +60,49 @@ const followersArray = [];
 </div>
 
 */
+const cards = document.querySelector(".cards");
+
+function myGithub(obj) {
+  const myCard = document.createElement("div"),
+    myImg = document.createElement("img"),
+    cardInfo = document.createElement("div"),
+    myName = document.createElement("h3"),
+    myUsername = document.createElement("p"),
+    myLocation = document.createElement("p"),
+    myProfile = document.createElement("p"),
+    myLink = document.createElement("a"),
+    myFollowers = document.createElement("p"),
+    myFollowings = document.createElement("p"),
+    myBio = document.createElement("p");
+
+  myCard.classList.add("card");
+  cardInfo.classList.add("card-info");
+  myName.classList.add("name");
+  myUsername.classList.add("username");
+
+  myCard.append(myImg, cardInfo);
+  cardInfo.append(
+    myName,
+    myUsername,
+    myLocation,
+    myProfile,
+    myFollowers,
+    myFollowings,
+    myBio
+  );
+  myProfile.append(myLink);
+
+  myName.textContent = `${obj.name}`;
+  myImg.src = `${obj.avatar_url}`;
+  myUsername.textContent = `${obj.login}`;
+  myLocation.textContent = `${obj.location}`;
+  myLink.textContent = `${obj.html_url}`;
+  myFollowers.textContent = `${obj.followers}`;
+  myFollowings.textContent = `${obj.following}`;
+  myBio.textContent = `${obj.bio}`;
+
+  return myCard;
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
