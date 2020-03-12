@@ -39,7 +39,37 @@ axios
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  "anthonyamaro15",
+  "LeesahMasko",
+  "berachele",
+  "leachcoding",
+  "Diddleslip",
+  "janecyyu",
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell"
+];
+
+i = 0;
+followersArray.forEach((user, i) => {
+  axios
+    .get(`https://api.github.com/users/${followersArray[i]}`)
+    .then(response => {
+      console.log(response);
+      const myInfo = response.data;
+      const cards = document.querySelector(".cards");
+      const cardInfo = myGithub(myInfo);
+      console.log(cardInfo);
+      cards.appendChild(cardInfo);
+    })
+    .catch(error => {
+      console.log("there is an error", error);
+    });
+  console.log(followersArray);
+});
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -95,11 +125,12 @@ function myGithub(obj) {
   myName.textContent = `${obj.name}`;
   myImg.src = `${obj.avatar_url}`;
   myUsername.textContent = `${obj.login}`;
-  myLocation.textContent = `${obj.location}`;
-  myLink.textContent = `${obj.html_url}`;
-  myFollowers.textContent = `${obj.followers}`;
-  myFollowings.textContent = `${obj.following}`;
-  myBio.textContent = `${obj.bio}`;
+  myLocation.textContent = `Location: ${obj.location}`;
+  myLink.innerHTML = `${obj.html_url}`;
+  myLink.href = `${obj.html_url}`;
+  myFollowers.innerHTML = `Followers: ${obj.followers}`;
+  myFollowings.textContent = `Following: ${obj.following}`;
+  myBio.textContent = `Bio: ${obj.bio}`;
 
   return myCard;
 }
